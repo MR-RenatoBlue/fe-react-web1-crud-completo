@@ -15,14 +15,14 @@ function App() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
-    const fetchEmployees = async () => {
+    async function fetchEmployees() {
       try {
         const response = await api.get("/employees");
         setEmployeesList(response.data);
       } catch (error) {
         console.log("Erro ao buscar funcionários", error);
       }
-    };
+    }
     fetchEmployees();
   }, [employees]);
 
@@ -45,6 +45,17 @@ function App() {
     setSelectedEmployee(employee);
   }
 
+  async function handleDeleteEmployee(employeeId) {
+    try {
+      await api.delete(`/employees/${employeeId}`);
+      setEmployeesList(
+        employeesList.filter((employee) => employee.id !== employeeId)
+      );
+    } catch (error) {
+      console.error("Erro ao deletar funcionário", error);
+    }
+  }
+
   return (
     <div id="app">
       <aside>
@@ -61,6 +72,7 @@ function App() {
               key={employee.id}
               employee={employee}
               onEdit={handleEditEmployee}
+              onDelete={handleDeleteEmployee}
             />
           ))}
         </ul>

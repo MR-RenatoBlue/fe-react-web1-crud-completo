@@ -4,9 +4,20 @@ import "./styles.css";
 const formatSalary = (salary) => {
   return salary.replace(".", ",");
 };
-export default function EmployeeItem({ employee, onEdit }) {
+export default function EmployeeItem({ employee, onEdit, onDelete }) {
   const formattedSalary = formatSalary(employee.salary);
   const formattedHireDate = format(new Date(employee.hireDate), "dd/MM/yyyy");
+
+  async function handleDeleteClick() {
+    if (window.confirm(`Tem certeza que deseja deletar ${employee.name}?`)) {
+      try {
+        await onDelete(employee.id);
+      } catch (error) {
+        console.error("Erro ao deletar funcionário", error);
+      }
+    }
+  }
+
   return (
     <li className="employee-item">
       <header>
@@ -15,7 +26,7 @@ export default function EmployeeItem({ employee, onEdit }) {
             <strong>{employee.name}</strong>
             <span className="icon-buttons">
               <i className="fas fa-edit" onClick={() => onEdit(employee)}></i>
-              <i className="fas fa-trash-alt"></i>
+              <i className="fas fa-trash-alt" onClick={handleDeleteClick}></i>
             </span>
           </div>
           <span className="title">{employee.position}</span>

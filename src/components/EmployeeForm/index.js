@@ -11,14 +11,14 @@ export default function EmployeeForm({ onSubmit, initialData }) {
   const [departmentId, setDepartmentId] = useState("");
 
   useEffect(() => {
-    const fetchDepartments = async () => {
+    async function fetchDepartments() {
       try {
         const response = await api.get("/departments");
         setDepartments(response.data);
       } catch (error) {
         console.error("Erro ao buscar departamentos:", error);
       }
-    };
+    }
 
     fetchDepartments();
   }, []);
@@ -34,7 +34,7 @@ export default function EmployeeForm({ onSubmit, initialData }) {
     }
   }, [initialData]);
 
-  const handleSubmit = async (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     await onSubmit({
@@ -52,7 +52,7 @@ export default function EmployeeForm({ onSubmit, initialData }) {
     setEmployeeSalary("");
     setEmployeeTransport(false);
     setDepartmentId("");
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
