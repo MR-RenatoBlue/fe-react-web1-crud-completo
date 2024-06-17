@@ -132,6 +132,11 @@ aside form button[type="submit"]:active {
   background: #3346f0;
 }
 
+aside form button[type="submit"]:disabled {
+  background: #888;
+  cursor: not-allowed;
+}
+
 .input-block select {
   width: 100%;
   height: 32px;

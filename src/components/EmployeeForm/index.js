@@ -10,6 +10,8 @@ export default function EmployeeForm({ onSubmit, initialData }) {
   const [departments, setDepartments] = useState([]);
   const [departmentId, setDepartmentId] = useState("");
 
+  const isFormValid = departmentId;
+
   useEffect(() => {
     async function fetchDepartments() {
       try {
@@ -124,7 +126,9 @@ export default function EmployeeForm({ onSubmit, initialData }) {
           name="employee_department"
           id="employee_department"
         >
-          <option value="">Selecione o Departamento</option>
+          <option disabled value="">
+            Selecione o Departamento
+          </option>
           {departments.map((department) => (
             <option key={department.id} value={department.id}>
               {department.name}
@@ -133,7 +137,9 @@ export default function EmployeeForm({ onSubmit, initialData }) {
         </select>
       </div>
 
-      <button type="submit">SALVAR</button>
+      <button disabled={!isFormValid} type="submit">
+        SALVAR
+      </button>
     </form>
   );
 }
