@@ -1,13 +1,13 @@
 import "./styles.css";
 
-export default function TaskItem({ task, onEdit, onDelete }) {
+export default function AgentItem({ agent, onEdit, onDelete }) {
 
   async function handleDeleteClick() {
-    if (window.confirm(`Tem certeza que deseja deletar ${task.name}?`)) {
+    if (window.confirm(`Tem certeza que deseja deletar ${agent.name}?`)) {
       try {
-        await onDelete(task.id);
+        await onDelete(agent.id);
       } catch (error) {
-        console.error("Erro ao deletar tarefa", error);
+        console.error("Erro ao deletar Agente", error);
       }
     }
   }
@@ -17,18 +17,17 @@ export default function TaskItem({ task, onEdit, onDelete }) {
       <header>
         <div className="tasks-info">
           <div className="name-icons">
-            <strong>{task.name}</strong>
+            <strong>{agent.name}</strong>
             <span className="icon-buttons">
-              <i className="fas fa-edit" onClick={() => onEdit(task)}></i>
+              <i className="fas fa-edit" onClick={() => onEdit(agent)}></i>
               <i className="fas fa-trash-alt" onClick={handleDeleteClick}></i>
             </span>
           </div>
         </div>
       </header>
       <div>
-        <p>Descrição: {task.description}</p>
-        <p>Categoria: {task.category_name}</p>
-        <p>Agente: {task.agent_name}</p>
+        <p>CPF: {agent.cpf}</p>
+        <p>Email: {agent.email}</p>
       </div>
     </li>
   );
