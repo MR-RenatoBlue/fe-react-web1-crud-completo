@@ -1,4 +1,4 @@
-li.employee-item {
+li.task-item {
   background: #fff;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.02);
   border-radius: 4px;
@@ -6,7 +6,7 @@ li.employee-item {
   margin-bottom: 10px;
 }
 
-li.employee-item header {
+li.task-item header {
   display: flex;
   flex-direction: column;
   align-items: space-between;
@@ -18,7 +18,7 @@ li.employee-item header {
   justify-content: space-between;
 }
 
-.employees-info strong {
+.tasks-info strong {
   font-size: 16px;
   color: #6674f4;
 }
@@ -43,26 +43,26 @@ li.employee-item header {
   color: #5061fc;
 }
 
-.employees-info .title {
+.tasks-info .title {
   font-size: 14px;
   color: #666;
   margin-top: 2px;
   display: block;
 }
 
-li.employee-item p {
+li.task-item p {
   color: #666;
   font-size: 16px;
   line-height: 20px;
   margin: 10px 0;
 }
 
-li.employee-item a {
+li.task-item a {
   color: #5061fc;
   font-size: 14px;
   text-decoration: none;
 }
 
-li.employee-item a:hover {
+li.task-item a:hover {
   color: #6674f4;
 }

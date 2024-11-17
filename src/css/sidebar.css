@@ -95,7 +95,8 @@ aside form .input-block label {
   margin-bottom: 5px;
 }
 
-aside form .input-block input {
+aside form .input-block input,
+aside form .input-block textarea {
   width: 100%;
   height: 32px;
   font-size: 16px;

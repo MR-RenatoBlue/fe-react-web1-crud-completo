@@ -6,73 +6,73 @@ import "./css/app.css";
 import "./css/sidebar.css";
 import "./css/main.css";
 
-import EmployeeForm from "./components/EmployeeForm";
-import EmployeeItem from "./components/EmployeeItem";
+import TaskForm from "./components/TaskForm";
+import TaskItem from "./components/TaskItem";
 
 function App() {
-  const [employeesList, setEmployeesList] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [tasksList, setTasksList] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
-    async function fetchEmployees() {
+    async function fetchTasks() {
       try {
-        const response = await api.get("/employees");
-        setEmployeesList(response.data);
+        const response = await api.get("/tasks");
+        setTasksList(response.data);
       } catch (error) {
-        console.log("Erro ao buscar funcionários", error);
+        console.log("Erro ao buscar tarefas", error);
       }
     }
-    fetchEmployees();
-  }, [employees]);
+    fetchTasks();
+  }, [tasks]);
 
-  async function handleAddEmployee(data) {
-    if (selectedEmployee) {
-      const response = await api.put(`/employees/${selectedEmployee.id}`, data);
-      setEmployees(
-        employees.map((employee) =>
-          employee.id === selectedEmployee.id ? response.data : employee
+  async function handleAddTask(data) {
+    if (selectedTask) {
+      const response = await api.put(`/tasks/${selectedTask.id}`, data);
+      setTasks(
+        tasks.map((task) =>
+          task.id === selectedTask.id ? response.data : task
         )
       );
-      setSelectedEmployee(null);
+      setSelectedTask(null);
     } else {
-      const response = await api.post("/employees", data);
-      setEmployees([...employees, response.data]);
+      const response = await api.post("/tasks", data);
+      setTasks([...tasks, response.data]);
     }
   }
 
-  function handleEditEmployee(employee) {
-    setSelectedEmployee(employee);
+  function handleEditTask(task) {
+    setSelectedTask(task);
   }
 
-  async function handleDeleteEmployee(employeeId) {
+  async function handleDeleteTask(taskId) {
     try {
-      await api.delete(`/employees/${employeeId}`);
-      setEmployeesList(
-        employeesList.filter((employee) => employee.id !== employeeId)
+      await api.delete(`/tasks/${taskId}`);
+      setTasksList(
+        tasksList.filter((task) => task.id !== taskId)
       );
     } catch (error) {
-      console.error("Erro ao deletar funcionário", error);
+      console.error("Erro ao deletar tarefa", error);
     }
   }
 
   return (
     <div id="app">
       <aside>
-        <strong>Cadastro de Funcionário</strong>
-        <EmployeeForm
-          onSubmit={handleAddEmployee}
-          initialData={selectedEmployee}
+        <strong>Cadastro de Tarefas</strong>
+        <TaskForm
+          onSubmit={handleAddTask}
+          initialData={selectedTask}
         />
       </aside>
       <main>
         <ul>
-          {employeesList.map((employee) => (
-            <EmployeeItem
-              key={employee.id}
-              employee={employee}
-              onEdit={handleEditEmployee}
-              onDelete={handleDeleteEmployee}
+          {tasksList.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onEdit={handleEditTask}
+              onDelete={handleDeleteTask}
             />
           ))}
         </ul>
