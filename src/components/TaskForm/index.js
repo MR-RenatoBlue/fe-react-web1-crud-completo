@@ -71,7 +71,7 @@ export default function TaskForm({ onSubmit, initialData }) {
           name="task_title"
           id="task_title"
           value={taskName}
-          required
+          required="true"
           title="Título é de preenchimento obrigatório"
           onChange={(e) => setTaskName(e.target.value)}
         />
