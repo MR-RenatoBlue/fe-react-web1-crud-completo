@@ -11,6 +11,8 @@ import TaskForm from "./components/TaskForm";
 import TaskItem from "./components/TaskItem";
 import AgentForm from "./components/AgentForm";
 import AgentItem from "./components/AgentItem";
+import CategoryForm from "./components/CategoryForm";
+import CategoryItem from "./components/CategoryItem";
 
 function App() {
   const [tasksList, setTasksList] = useState([]);
@@ -19,6 +21,51 @@ function App() {
   const [agentsList, setAgentsList] = useState([]);
   const [agents, setAgents] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState(null);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await api.get("/categories");
+        setCategoriesList(response.data);
+      } catch (error) {
+        console.log("Erro ao buscar Categorias", error);
+      }
+    }
+    fetchCategories();
+  }, [categories]);
+
+  async function handleAddCategory(data) {
+    if (selectedCategory) {
+      const response = await api.put(`/categories/${selectedCategory.id}`, data);
+      setCategories(
+        categories.map((category) =>
+          category.id === selectedCategory.id ? response.data : category
+        )
+      );
+      setSelectedCategory(null);
+    } else {
+      const response = await api.post("/categories", data);
+      setCategories([...categories, response.data]);
+    }
+  }
+
+  function handleEditCategory(category) {
+    setSelectedCategory(category);
+  }
+
+  async function handleDeleteCategory(categoryId) {
+    try {
+      await api.delete(`/categories/${categoryId}`);
+      setCategoriesList(
+        categoriesList.filter((category) => category.id !== categoryId)
+      );
+    } catch (error) {
+      console.error("Erro ao deletar categoria", error);
+    }
+  }
 
   useEffect(() => {
     async function fetchAgents() {
@@ -153,6 +200,32 @@ function App() {
                         agent={agent}
                         onEdit={handleEditAgent}
                         onDelete={handleDeleteAgent}
+                      />
+                    ))}
+                  </ul>
+                </main>
+              </>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <>
+                <aside>
+                  <strong>Cadastro de Categoria</strong>
+                  <CategoryForm
+                    onSubmit={handleAddCategory}
+                    initialData={selectedCategory}
+                  />
+                </aside>
+                <main>
+                  <ul>
+                    {categoriesList.map((category) => (
+                      <CategoryItem
+                        key={category.id}
+                        category={category}
+                        onEdit={handleEditCategory}
+                        onDelete={handleDeleteCategory}
                       />
                     ))}
                   </ul>
