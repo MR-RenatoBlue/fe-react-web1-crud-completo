@@ -4,6 +4,26 @@ export default function AgentForm({ onSubmit, initialData }) {
   const [agentName, setAgentName] = useState("");
   const [agentCpf, setAgentCpf] = useState("");
   const [agentEmail, setAgentEmail] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!agentName.trim()) {
+      newErrors.agentName = 'Nome do agente é um campo obrigatório';
+    }
+
+    if (!agentCpf.trim()) {
+      newErrors.agentCpf = 'CPF é um campo obrigatório';
+    }
+
+    if (!agentEmail.trim()) {
+      newErrors.agentEmail = 'E-mail é um campo obrigatório';
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  }
 
   useEffect(() => {
     if (initialData) {
@@ -15,16 +35,20 @@ export default function AgentForm({ onSubmit, initialData }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (validate()) {
 
-    await onSubmit({
-      name: agentName,
-      cpf: agentCpf,
-      email: agentEmail,
-    });
 
-    setAgentName("");
-    setAgentCpf("");
-    setAgentEmail("");
+      await onSubmit({
+        name: agentName,
+        cpf: agentCpf,
+        email: agentEmail,
+      });
+
+      setAgentName("");
+      setAgentCpf("");
+      setAgentEmail("");
+      setErrors({})
+    }
   }
 
   return (
@@ -36,10 +60,11 @@ export default function AgentForm({ onSubmit, initialData }) {
           name="task_title"
           id="task_title"
           value={agentName}
-          required="true"
           title="Nome é de preenchimento obrigatório"
+          className={errors.agentName ? 'input-error' : ''}
           onChange={(e) => setAgentName(e.target.value)}
         />
+        {errors.agentName && <span className="error">{errors.agentName}</span>}
       </div>
 
       <div className="input-block">
@@ -47,11 +72,12 @@ export default function AgentForm({ onSubmit, initialData }) {
         <input
           name="task_description"
           id="task_description"
-          required="true"
           title="CPF é de preenchimento obrigatório"
           value={agentCpf}
+          className={errors.agentCpf ? 'input-error' : ''}
           onChange={(e) => setAgentCpf(e.target.value)}
         />
+        {errors.agentCpf && <span className="error">{errors.agentCpf}</span>}
       </div>
 
       <div className="input-block">
@@ -60,11 +86,12 @@ export default function AgentForm({ onSubmit, initialData }) {
           type="email"
           name="task_description"
           id="task_description"
-          required="true"
           title="e-mail é de preenchimento obrigatório"
           value={agentEmail}
+          className={errors.agentEmail ? 'input-error' : ''}
           onChange={(e) => setAgentEmail(e.target.value)}
         />
+        {errors.agentEmail && <span className="error">{errors.agentEmail}</span>}
       </div>
       <button type="submit">
         SALVAR

@@ -27,6 +27,7 @@ button {
   font-size: 12px;
 }
 aside form .input-block input.input-error,
-aside form .input-block textarea.input-error {
+aside form .input-block textarea.input-error,
+aside form .input-block select.input-error {
     border: 1px solid rgb(236, 72, 72);
 }

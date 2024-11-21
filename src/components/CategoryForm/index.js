@@ -7,7 +7,7 @@ export default function CategoryForm({ onSubmit, initialData }) {
   const validate = () => {
     const newErrors = {};
     if (!categoryName.trim()) {
-      newErrors.categoryName = 'Descrição é um campo obrigatório';
+      newErrors.categoryName = 'Nome da categoria é um campo obrigatório';
     }
 
     setErrors(newErrors);

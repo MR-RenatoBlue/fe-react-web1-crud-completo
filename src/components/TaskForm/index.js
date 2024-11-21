@@ -8,8 +8,30 @@ export default function TaskForm({ onSubmit, initialData }) {
   const [agentId, setAgentId] = useState("");
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const isFormValid = categoryId;
+  const validate = () => {
+    const newErrors = {};
+    if (!taskName.trim()) {
+      newErrors.taskName = 'Título é um campo obrigatório';
+    }
+
+    if (!taskDescription.trim()) {
+      newErrors.taskDescription = 'Descrição é um campo obrigatório';
+    }
+
+    if (!agentId.trim()) {
+      newErrors.agentId = 'Agente é um campo obrigatório';
+    }
+
+    if (!categoryId.trim()) {
+      newErrors.categoryId = 'Categoria é um campo obrigatório';
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  }
 
   useEffect(() => {
     async function fetchCategories() {
@@ -48,18 +70,22 @@ export default function TaskForm({ onSubmit, initialData }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (validate()) {
 
-    await onSubmit({
-      name: taskName,
-      description: taskDescription,
-      agent_id: agentId,
-      category_id: categoryId,
-    });
 
-    setTaskName("");
-    setTaskDescription("");
-    setAgentId("");
-    setCategoryId("");
+      await onSubmit({
+        name: taskName,
+        description: taskDescription,
+        agent_id: agentId,
+        category_id: categoryId,
+      });
+
+      setTaskName("");
+      setTaskDescription("");
+      setAgentId("");
+      setCategoryId("");
+      setErrors({});
+    }
   }
 
   return (
@@ -71,10 +97,11 @@ export default function TaskForm({ onSubmit, initialData }) {
           name="task_title"
           id="task_title"
           value={taskName}
-          required="true"
           title="Título é de preenchimento obrigatório"
+          className={errors.taskName ? 'input-error' : ''}
           onChange={(e) => setTaskName(e.target.value)}
         />
+        {errors.taskName && <span className="error">{errors.taskName}</span>}
       </div>
 
       <div className="input-block">
@@ -84,11 +111,12 @@ export default function TaskForm({ onSubmit, initialData }) {
           id="task_description"
           rows="4"
           cols="50"
-          required="true"
           title="Descrição é de preenchimento obrigatório"
           value={taskDescription}
+          className={errors.taskDescription ? 'input-error' : ''}
           onChange={(e) => setTaskDescription(e.target.value)}
         />
+        {errors.taskDescription && <span className="error">{errors.taskDescription}</span>}
       </div>
 
       <div className="input-block">
@@ -98,6 +126,7 @@ export default function TaskForm({ onSubmit, initialData }) {
           onChange={(e) => setAgentId(e.target.value)}
           name="task_agent"
           id="task_agent"
+          className={errors.agentId ? 'input-error' : ''}
         >
           <option disabled value="">
             Selecione...
@@ -108,6 +137,7 @@ export default function TaskForm({ onSubmit, initialData }) {
             </option>
           ))}
         </select>
+        {errors.agentId && <span className="error">{errors.agentId}</span>}
       </div>
 
       <div className="input-block">
@@ -117,6 +147,7 @@ export default function TaskForm({ onSubmit, initialData }) {
           onChange={(e) => setCategoryId(e.target.value)}
           name="task_category"
           id="task_category"
+          className={errors.categoryId ? 'input-error' : ''}
         >
           <option disabled value="">
             Selecione...
@@ -127,9 +158,10 @@ export default function TaskForm({ onSubmit, initialData }) {
             </option>
           ))}
         </select>
+        {errors.categoryId && <span className="error">{errors.categoryId}</span>}
       </div>
 
-      <button disabled={!isFormValid} type="submit">
+      <button type="submit">
         SALVAR
       </button>
     </form>
