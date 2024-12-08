@@ -1,5 +1,5 @@
 main {
-  flex: 1;
+  flex: 2;
 }
 
 main ul {
@@ -11,6 +11,17 @@ main ul {
 
 @media (max-width: 650px) {
   main ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+main.dash {
+  display: grid;
+  align-items: center;
+}
+@media (max-width: 650px) {
+  main.dash {
     grid-template-columns: 1fr;
   }
 }

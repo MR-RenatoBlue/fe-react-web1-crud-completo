@@ -13,6 +13,7 @@ import AgentForm from "./components/AgentForm";
 import AgentItem from "./components/AgentItem";
 import CategoryForm from "./components/CategoryForm";
 import CategoryItem from "./components/CategoryItem";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const [tasksList, setTasksList] = useState([]);
@@ -157,6 +158,14 @@ function App() {
         <Routes>
           <Route
             path="/"
+            element={
+              <>
+                <Dashboard />
+              </>
+            }
+          />
+          <Route
+            path="/tasks"
             element={
               <>
                 <aside>

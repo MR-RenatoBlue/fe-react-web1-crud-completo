@@ -15,6 +15,9 @@ function NavigationBar(args) {
         <Nav className="mr-auto">
           <NavbarBrand href="/">Services4YouNow</NavbarBrand>
           <NavItem>
+            <NavLink href="/tasks">Cadastrar Tarefas</NavLink>
+          </NavItem>
+          <NavItem>
             <NavLink href="/agents">Cadastrar Agentes</NavLink>
           </NavItem>
           <NavItem>
